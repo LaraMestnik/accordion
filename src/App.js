@@ -1,24 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { data } from './data.js';
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
 
 function App() {
+  const [questions, setQuestions] = useState(data);
+  const [displayText, setDisplayText] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      {questions.map((question, index) => {
+        const { title, text } = question;
+        return (
+          <article className="question" key={index}>
+            <header>
+              <h2>{title}</h2>
+              <button onClick={() => {
+                setDisplayText(!displayText);
+                setCurrentQuestion(index);
+              }}>
+                {displayText ? <IoIosArrowUp className='icon' /> : <IoIosArrowDown className='icon' />}
+              </button>
+            </header>
+            <p className={currentQuestion === index && displayText ? 'show-text' : 'hide-text'}>{text}</p>
+          </article>
+        )
+      })}
+
+
+    </main>
   );
 }
 
